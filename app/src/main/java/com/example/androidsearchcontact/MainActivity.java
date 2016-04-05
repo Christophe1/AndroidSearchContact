@@ -1,5 +1,6 @@
 package com.example.androidsearchcontact;
 
+import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
@@ -19,46 +20,69 @@ import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.SearchView.OnQueryTextListener;
 import android.widget.SimpleCursorAdapter;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends ListActivity implements 
 	OnQueryTextListener, LoaderCallbacks<Cursor>{
 	
-	SimpleCursorAdapter simpleCursorAdapter;
+//	SimpleCursorAdapter simpleCursorAdapter;
+private List<CallData> listofphonehistory = new ArrayList<CallData>();
 	String cursorFilter;
 
+    //    Context is an abstract class...which means what exactly?
+    private Context context = null;
+
+    //create a ListView object called listview
+    ListView listview;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_main);
+
+        context = this;
+
+
+//initialise the object called listview, it's a ListView object and the exact id it will appear in is called ListView_ContactsData
+        listview = (ListView) findViewById(R.id.ListView_ContactsData);
+
+        //populate ListView_CallData with data
+//CustomAdapter is the class we are going to use. We will use it to create CustomAdapter
+//objects which will appear in the MainActivity activity, using the listofphonehistory
+//        PhoneContactsAdapter adapter = new PhoneContactsAdapter(MainActivity.this, listofphonehistory);
+//        listview.setAdapter(adapter);
+
 
         String[] from = new String[]{
                 Contacts.DISPLAY_NAME,
                 Contacts._ID};
         
         int[] to = new int[]{
-        		android.R.id.text1, 
+                android.R.id.text1,
         		android.R.id.text2};
 //************************************************
-        String[] selectionArgs = { Contacts.LOOKUP_KEY };
+//        String[] selectionArgs = { Contacts.LOOKUP_KEY };
 //        Cursor cursortwo = (Cursor)l.getItemAtPosition(position);
 //        String[] selectionArgs = { cursortwo.getString(cursortwo.getColumnIndex(Contacts.DISPLAY_NAME)) };
 //        cursor.getString(cursor.getColumnIndex(Contacts.DISPLAY_NAME));
 //        int counter = selectionArgs.length();
 
-        Cursor cursortest = getContentResolver().query (ContactsContract.Contacts.CONTENT_URI,
-                selectionArgs,
-                null,
-                null,
-                null);
-        Log.e("count contacts", "" + cursortest.getCount());
+//        Cursor cursortest = getContentResolver().query (ContactsContract.Contacts.CONTENT_URI,
+//                selectionArgs,
+//                null,
+//                null,
+//                null);
+//        Log.e("count contacts", "" + cursortest.getCount());
 //        Log.e("count", "" + selectionArgs.length());
 
 //        ***********************
         simpleCursorAdapter = new SimpleCursorAdapter(this,
-                android.R.layout.simple_list_item_2, 
+                android.R.layout.simple_list_item_2,
                 null,
                 from,
                 to, 
